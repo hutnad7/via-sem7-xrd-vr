@@ -7,11 +7,14 @@ public class ShootScript : MonoBehaviour
     [SerializeField] private GameObject bulletCube;
     [SerializeField] private GameObject bullet;
     [SerializeField] private Transform spawnpoint;
+    [SerializeField] private AudioSource fire;
+
     [SerializeField] private float bulletSpeed = 10f;
 
     public void Shoot()
     {
-        bullet.SetActive(true);
+        fire.Play();
+       bullet.SetActive(true);
        GameObject spawnBullet = Instantiate(bulletCube, spawnpoint.position, spawnpoint.rotation);
        spawnBullet.GetComponent<Rigidbody>().velocity = spawnpoint.forward * bulletSpeed;
        Destroy(spawnBullet, 1.5f);
