@@ -6,19 +6,21 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class FixedGrabScript : XRGrabInteractable
 
 {
- [SerializeField] private Transform rightHandAttachTransrom;
- [SerializeField] private Transform leftHandAttachTransrom;
+ [SerializeField] private Transform rightHandAttachTransfrom;
+ [SerializeField] private Transform leftHandAttachTransfrom;
 
     protected override void OnSelectEntered(SelectEnterEventArgs args)
     {
         if(args.interactableObject.transform.CompareTag("RightHand"))
         {
-            attachTransform = rightHandAttachTransrom;
+            
+            attachTransform = rightHandAttachTransfrom;
+            Debug.Log("righthand");
         }
 
          if(args.interactableObject.transform.CompareTag("LeftHand"))
         {
-            attachTransform = leftHandAttachTransrom;
+            attachTransform = leftHandAttachTransfrom;
         }
 
 
