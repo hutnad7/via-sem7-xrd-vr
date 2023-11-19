@@ -68,6 +68,10 @@ public class StalkerAI : MonoBehaviour
                 Stalker.SetActive(false);
             }
         }
+        else
+        {
+            Stalker.SetActive(false);
+        }
     }
 
     void OnTriggerEnter()
