@@ -1,6 +1,8 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+
 
 public class StalkerAI : MonoBehaviour
 {
@@ -8,7 +10,6 @@ public class StalkerAI : MonoBehaviour
     NavMeshAgent NavAgent;
     Animator StalkerAnim;
     public GameObject Stalker;
-    public static bool StalkerActive = false;
     public static int KillCount = 0;
     public int StalkerHealth = 15;
     public bool AttackTrigger = false;
@@ -19,7 +20,6 @@ public class StalkerAI : MonoBehaviour
     public AudioSource Hurt2;
     public AudioSource Hurt3;
     public int RandomHurt;
-    Vector3 initialPosition;
 
     // Animatior constants
     const string CROUCHED_WALKING = "Mutant Walking";
@@ -31,7 +31,6 @@ public class StalkerAI : MonoBehaviour
     {
         NavAgent = GetComponent<NavMeshAgent>();
         StalkerAnim = Stalker.GetComponent<Animator>();
-        initialPosition = Stalker.transform.position;
     }
 
     void Shot()
@@ -46,15 +45,13 @@ public class StalkerAI : MonoBehaviour
 
     void Update()
     {
-        if (PlayScript.isPlaying && !StalkerDead)
-        {
-            StalkerActive = true;
+        if(PlayScript.isPlaying && !StalkerDead){
             Stalker.SetActive(true);
-            if (StalkerIsBeingHit || StalkerIsHitting || StalkerDead || !StalkerActive)
+            if (StalkerIsBeingHit || StalkerIsHitting || StalkerDead)
             {
                 NavAgent.SetDestination(transform.position);
             }
-            if (StalkerActive && !StalkerDead && !StalkerIsBeingHit && !StalkerIsHitting)
+            if (!StalkerIsBeingHit && !StalkerIsHitting)
             {
                 if (!AttackTrigger)
                 {
@@ -66,18 +63,10 @@ public class StalkerAI : MonoBehaviour
                     StartCoroutine(StalkerHit());
                 }
             }
-            else if (!StalkerActive && !StalkerIsBeingHit && !StalkerIsHitting)
+            else if (!StalkerIsBeingHit && !StalkerIsHitting)
             {
                 Stalker.SetActive(false);
             }
-        }
-
-        // Reset the Stalker to initial position when dead and playing is true
-        if (StalkerDead && PlayScript.isPlaying)
-        {
-            Stalker.transform.position = initialPosition;
-            StalkerDead = false;
-            Stalker.SetActive(true);
         }
     }
 
@@ -117,7 +106,7 @@ public class StalkerAI : MonoBehaviour
 
     IEnumerator StalkerHit()
     {
-        if (AttackTrigger && !StalkerIsHitting)
+        if (AttackTrigger)
         {
             StalkerIsHitting = true;
             ChangeAnimationState(MUTANT_PUNCH);
@@ -138,6 +127,9 @@ public class StalkerAI : MonoBehaviour
             yield return new WaitForSeconds(1.1f);
             StalkerIsHitting = false;
         }
-        else yield break;
+        else {
+            StalkerIsHitting = false;
+            yield break;
+        }
     }
 }
