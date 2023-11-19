@@ -14,10 +14,18 @@ public class ShootScript : MonoBehaviour
     {
         fire.Play();
         flash.SetActive(true);
-       bullet.SetActive(true);
-       GameObject spawnBullet = Instantiate(bulletCube, spawnpoint.position, spawnpoint.rotation);
-       spawnBullet.GetComponent<Rigidbody>().velocity = spawnpoint.forward * bulletSpeed;
-       Destroy(spawnBullet, 1.5f);
+        bullet.SetActive(true);
+
+        if (Physics.Raycast(spawnpoint.position, spawnpoint.forward, out RaycastHit hit))
+        {
+            // Check if the hit object has a "PistolShot" method
+            hit.transform.SendMessage("Shot", SendMessageOptions.DontRequireReceiver);
+        }
+
+        GameObject spawnBullet = Instantiate(bulletCube, spawnpoint.position, spawnpoint.rotation);
+        spawnBullet.GetComponent<Rigidbody>().velocity = spawnpoint.forward * bulletSpeed;
+        Destroy(spawnBullet, 1.5f);
+
         flash.SetActive(false);
     }
 }

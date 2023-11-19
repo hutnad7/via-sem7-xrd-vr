@@ -1,96 +1,105 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class ZombieScript : MonoBehaviour
 {
-    Animator ZombieAnim;
-    public GameObject ThePlayer;
-    public GameObject Zombie;
+    public GameObject Dest;
+    NavMeshAgent NavAgent;
+    Animator StalkerAnim;
+    public GameObject Stalker;
     public bool AttackTrigger = false;
     public AudioSource Hurt1;
     public AudioSource Hurt2;
     public AudioSource Hurt3;
     public int RandomHurt;
-    public GameObject HurtScreen;
-    public int ZombieHealth = 15;
-    public bool ZombieIsBeingHit = false;
-    public bool ZombieIsHitting = false;
-    public bool ZombieDead = false;
+    public int StalkerHealth = 15;
+    public bool StalkerIsHitting = false;
+    public bool StalkerDead = false;
 
-    // Animatior constants
-    const string ZOMBIE_WALK = "walk";
-    const string ZOMBIE_DEATH = "death";
-    const string ZOMBIE_ATTACK = "attack";
+    // Animator constants
+    const string STALKER_WALK = "Mutant Walking";
+    const string STALKER_DEATH = "Mutant Dying";
+    const string STALKER_ATTACK = "Mutant Punch";
 
     void Start()
     {
-        ZombieAnim = Zombie.GetComponent<Animator>();
+        StalkerAnim = Stalker.GetComponent<Animator>();
+        NavAgent = GetComponent<NavMeshAgent>();
     }
 
-    void PistolShot(int DamageAmount)
+    void Shot()
     {
+        Debug.Log("Zombie is damaged");
         StartCoroutine(ZombieDamaged());
     }
 
     void ChangeAnimationState(string newState)
     {
-        ZombieAnim.Play(newState);
+        StalkerAnim.Play(newState);
     }
 
     void Update()
     {
-         if(PlayScript.isPlaying)
-         {
-            Zombie.SetActive(true);
-            transform.LookAt(ThePlayer.transform);
-            if (ZombieIsBeingHit || ZombieIsHitting || ZombieDead)
+        if (PlayScript.isPlaying)
+        {
+            Stalker.SetActive(true);
+            Stalker.transform.LookAt(Dest.transform.position);
+            NavAgent.SetDestination(transform.position);
+
+            if (StalkerIsHitting || StalkerDead)
             {
-                  transform.position = Vector3.MoveTowards(transform.position, ThePlayer.transform.position, 0);
+                NavAgent.isStopped = true;
+                Debug.Log("Zombie is not moving");
             }
-            if (!ZombieIsBeingHit && !ZombieIsHitting && !ZombieDead)
+            else
             {
-                  if (!AttackTrigger)
-                  {
-                     ChangeAnimationState(ZOMBIE_WALK);
-                     transform.position = Vector3.MoveTowards(transform.position, ThePlayer.transform.position, 0.02f);
-                  }
-                  else
-                  {
-                     StartCoroutine(InflictDamage());
-                  }
+                NavAgent.isStopped = false;
+                NavAgent.SetDestination(transform.position);
+
+                if (!AttackTrigger)
+                {
+                    NavAgent.SetDestination(Dest.transform.position);
+                    ChangeAnimationState(STALKER_WALK);
+                }
+                else
+                {
+                    Debug.Log("Zombie is attacking");
+                    StartCoroutine(InflictDamage());
+                }
             }
         }
     }
 
     void OnTriggerEnter()
     {
+        Debug.Log("Zombie is attacking");
         AttackTrigger = true;
     }
 
     void OnTriggerExit()
     {
+        Debug.Log("Zombie is not attacking");
         AttackTrigger = false;
     }
 
     IEnumerator ZombieDamaged()
     {
-        if (!ZombieDead)
+        if (!StalkerDead)
         {
-            ZombieIsBeingHit = true;
-            ZombieHealth -= 5;
-            if (ZombieHealth <= 0)
+            StalkerHealth -= 5;
+            if (StalkerHealth <= 0)
             {
-                ZombieDead = true;
-                ChangeAnimationState(ZOMBIE_DEATH);
+                StalkerDead = true;
+                ChangeAnimationState(STALKER_DEATH);
                 yield return new WaitForSeconds(2.4f);
                 this.gameObject.GetComponent<Collider>().enabled = false;
-                Zombie.SetActive(false);
+                Stalker.SetActive(false);
             }
             else
             {
                 yield return new WaitForSeconds(1.5f);
             }
-            ZombieIsBeingHit = false;
         }
     }
 
@@ -98,8 +107,8 @@ public class ZombieScript : MonoBehaviour
     {
         if (AttackTrigger)
         {
-            ZombieIsHitting = true;
-            ChangeAnimationState(ZOMBIE_ATTACK);
+            StalkerIsHitting = true;
+            ChangeAnimationState(STALKER_ATTACK);
             RandomHurt = Random.Range(1, 4);
             switch (RandomHurt)
             {
@@ -113,12 +122,9 @@ public class ZombieScript : MonoBehaviour
                     Hurt3.Play();
                     break;
             }
-            HurtScreen.SetActive(true);
-            yield return new WaitForSeconds(0.1f);
-            HurtScreen.SetActive(false);
             yield return new WaitForSeconds(2.3f);
             GlobalHealth.PlayerHealth -= 5;
-            ZombieIsHitting = false;
+            StalkerIsHitting = false;
         }
         else yield break;
     }
