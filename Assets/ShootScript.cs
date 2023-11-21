@@ -1,22 +1,31 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ShootScript : MonoBehaviour
 {
-    [SerializeField] private GameObject bulletCube;
-    [SerializeField] private GameObject bullet;
-    [SerializeField] private Transform spawnpoint;
-    [SerializeField] private AudioSource fire;
+    public GameObject bulletCube;
+    public GameObject bullet;
+    public Transform spawnpoint;
+    public AudioSource fire;
+    public GameObject flash;
 
     [SerializeField] private float bulletSpeed = 10f;
 
     public void Shoot()
     {
         fire.Play();
-       bullet.SetActive(true);
-       GameObject spawnBullet = Instantiate(bulletCube, spawnpoint.position, spawnpoint.rotation);
-       spawnBullet.GetComponent<Rigidbody>().velocity = spawnpoint.forward * bulletSpeed;
-       Destroy(spawnBullet, 1.5f);
+        flash.SetActive(true);
+        bullet.SetActive(true);
+
+        if (Physics.Raycast(spawnpoint.position, spawnpoint.forward, out RaycastHit hit))
+        {
+            // Check if the hit object has a "PistolShot" method
+            hit.transform.SendMessage("Shot", SendMessageOptions.DontRequireReceiver);
+        }
+
+        GameObject spawnBullet = Instantiate(bulletCube, spawnpoint.position, spawnpoint.rotation);
+        spawnBullet.GetComponent<Rigidbody>().velocity = spawnpoint.forward * bulletSpeed;
+        Destroy(spawnBullet, 1.5f);
+
+        flash.SetActive(false);
     }
 }
