@@ -2846,7 +2846,19 @@ MonoBehaviour:
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 993230826}
+        m_TargetAssemblyTypeName: DropDownScript, Assembly-CSharp
+        m_MethodName: TurnProviderSelect
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_AlphaFadeSpeed: 0.15
 --- !u!114 &451774970
 MonoBehaviour:
@@ -12839,6 +12851,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1961464639276236543, guid: 9d0a6c56049244441846a61f3a83e443, type: 3}
+      propertyPath: m_RightHandSnapTurnAction.m_UseReference
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3297688626611383114, guid: 9d0a6c56049244441846a61f3a83e443, type: 3}
       propertyPath: m_Name
       value: XR Origin (XR Rig)
@@ -12890,6 +12906,14 @@ PrefabInstance:
     - target: {fileID: 3906898786961997769, guid: 9d0a6c56049244441846a61f3a83e443, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7408616049108938126, guid: 9d0a6c56049244441846a61f3a83e443, type: 3}
+      propertyPath: m_RightHandTurnAction.m_Reference
+      value: 
+      objectReference: {fileID: -6493913391331992944, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+    - target: {fileID: 7408616049108938126, guid: 9d0a6c56049244441846a61f3a83e443, type: 3}
+      propertyPath: m_RightHandTurnAction.m_UseReference
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
