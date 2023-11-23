@@ -3054,8 +3054,8 @@ MonoBehaviour:
   m_StartingSingleGrabTransformers: []
   m_StartingMultipleGrabTransformers: []
   m_AddDefaultGrabTransformers: 1
-  rightHandAttachTransfrom: {fileID: 1952202391}
-  leftHandAttachTransfrom: {fileID: 1683913003}
+  rightHandAttachTransfrom: {fileID: 2117347401}
+  leftHandAttachTransfrom: {fileID: 524507923}
 --- !u!1 &344477861 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1000012964112300, guid: 8306882d88a96b64291460c8d7664f4d, type: 3}
@@ -5580,7 +5580,7 @@ MonoBehaviour:
       m_Calls: []
   m_AttachTransform: {fileID: 0}
   m_SecondaryAttachTransform: {fileID: 0}
-  m_UseDynamicAttach: 1
+  m_UseDynamicAttach: 0
   m_MatchAttachPosition: 1
   m_MatchAttachRotation: 1
   m_SnapToColliderVolume: 1
@@ -5628,8 +5628,8 @@ MonoBehaviour:
   m_StartingSingleGrabTransformers: []
   m_StartingMultipleGrabTransformers: []
   m_AddDefaultGrabTransformers: 1
-  rightHandAttachTransfrom: {fileID: 2117347401}
-  leftHandAttachTransfrom: {fileID: 524507923}
+  rightHandAttachTransfrom: {fileID: 1952202391}
+  leftHandAttachTransfrom: {fileID: 1683913003}
 --- !u!1001 &625768165
 PrefabInstance:
   m_ObjectHideFlags: 0
