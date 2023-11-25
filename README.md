@@ -2,7 +2,7 @@
 ![Image](https://upload.wikimedia.org/wikipedia/commons/5/5d/VIA_UC_logo.png)
 
 ### Game Requirements
-![image](https://github.com/hutnad7/gitdemo/blob/master/Screenshot%202023-11-04%20174842.png)
+![image](https://github.com/hutnad7/via-sem7-xrd-vr/blob/master/Assets/Screenshot%202023-11-04%20174842.png)
 
 ### Contributors
 - Stefan Georgiev (304284)
